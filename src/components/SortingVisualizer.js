@@ -7,9 +7,15 @@ import {
 
 function createRandomArray(numItems) {
   let arr = [];
+  let max = 400;
+
+  if (document.getElementById("array_container")) {
+    max =
+      parseInt(document.getElementById("array_container").clientHeight) - 10;
+  }
 
   for (let i = 0; i < numItems; i++) {
-    let num = Math.floor(Math.random() * 50);
+    let num = Math.floor(Math.random() * max);
     arr.push(num);
   }
 
@@ -17,18 +23,27 @@ function createRandomArray(numItems) {
 }
 
 function SortingVisualizer() {
-  const numItems = 50;
+  const [numItems, setNumItems] = useState(100);
   const [items, setItems] = useState(createRandomArray(numItems));
   const [isSorting, setIsSorting] = useState(false);
+  const [sortTime, setSortTime] = useState(null);
+  const [sortingSpeed, setSortingSpeed] = useState(30);
 
   const arrayBars = document.getElementsByClassName("array-bar");
 
   function resetItems() {
+    setSortTime(null);
     setItems(createRandomArray(numItems));
   }
 
   async function handleInsertionSortClick() {
-    let res = await insertionSort(arrayBars);
+    setIsSorting(true);
+
+    const start = Date.now();
+    let res = await insertionSort(arrayBars, sortingSpeed);
+    const end = Date.now();
+    setSortTime(end - start);
+
     let nextItems = [];
 
     for (let i = 0; i < res.length; i++) {
@@ -36,10 +51,17 @@ function SortingVisualizer() {
     }
     //console.log(nextItems);
     setItems(nextItems);
+    setIsSorting(false);
   }
 
   async function handleQuickSortClick() {
-    let res = await quickSort(arrayBars, 0, arrayBars.length - 1);
+    setIsSorting(true);
+
+    const start = Date.now();
+    let res = await quickSort(arrayBars, 0, arrayBars.length - 1, sortingSpeed);
+    const end = Date.now();
+    setSortTime(end - start);
+
     let nextItems = [];
 
     for (let i = 0; i < res.length; i++) {
@@ -47,10 +69,17 @@ function SortingVisualizer() {
     }
     console.log(nextItems);
     setItems(nextItems);
+    setIsSorting(false);
   }
 
   async function handleMergeSortClick() {
-    let res = await mergeSort(arrayBars, 0, arrayBars.length - 1);
+    setIsSorting(true);
+
+    const start = Date.now();
+    let res = await mergeSort(arrayBars, 0, arrayBars.length - 1, sortingSpeed);
+    const end = Date.now();
+    setSortTime(end - start);
+
     let nextItems = [];
 
     for (let i = 0; i < res.length; i++) {
@@ -58,11 +87,24 @@ function SortingVisualizer() {
     }
     console.log(nextItems);
     setItems(nextItems);
+    setIsSorting(false);
+  }
+
+  function onSpeedChange(e) {
+    console.log("triggered");
+    setSortingSpeed(parseInt(e.target.value));
+  }
+
+  function onNumItemsChange(e) {
+    console.log("triggered");
+    setNumItems(parseInt(e.target.value));
+    resetItems();
   }
 
   return (
-    <div className="container">
-      <div className="array-container">
+    <div className="container" style={{ width: "100%", height: "100%" }}>
+      {/* {sortTime && <h3>{`Last array was sorted in ${sortTime}ms`}</h3>} */}
+      <div id="array_container" className="array-container">
         {items.map((item, idx) => (
           <div
             className="array-bar"
@@ -72,29 +114,55 @@ function SortingVisualizer() {
           ></div>
         ))}
       </div>
-      <button
-        className="insertion-sort-button"
-        onClick={() => handleInsertionSortClick()}
-      >
-        Insertion Sort
-      </button>
-      <button
-        className="quicksort-button"
-        onClick={() => handleQuickSortClick()}
-      >
-        Quicksort
-      </button>
-      <button
-        className="mergesort-button"
-        onClick={() => handleMergeSortClick()}
-      >
-        Mergesort
-      </button>
-      {!isSorting && (
-        <button className="reset-button" onClick={() => resetItems()}>
-          Reset Items
+      <div className="sliders-container">
+        <div>
+          <input
+            type="range"
+            name="number"
+            min="15"
+            max="120"
+            value={numItems}
+            onChange={onNumItemsChange}
+          ></input>
+          <label for="number">Array Size</label>
+        </div>
+        <div>
+          <input
+            type="range"
+            name="speed"
+            min="10"
+            max="60"
+            value={sortingSpeed}
+            onChange={onSpeedChange}
+          ></input>
+          <label for="speed">🕒 Per Swap</label>
+        </div>
+      </div>
+      <div className="button-container">
+        <button
+          className="insertion-sort-button"
+          onClick={() => handleInsertionSortClick()}
+        >
+          Insertion Sort
         </button>
-      )}
+        <button
+          className="quicksort-button"
+          onClick={() => handleQuickSortClick()}
+        >
+          Quicksort
+        </button>
+        <button
+          className="mergesort-button"
+          onClick={() => handleMergeSortClick()}
+        >
+          Mergesort
+        </button>
+        {!isSorting && (
+          <button className="reset-button" onClick={() => resetItems()}>
+            Reset Items
+          </button>
+        )}
+      </div>
     </div>
   );
 }

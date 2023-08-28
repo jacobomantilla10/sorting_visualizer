@@ -1,33 +1,33 @@
-export async function insertionSort(arr) {
+export async function insertionSort(arr, swapTime) {
   for (let i = 1; i < arr.length; i++) {
     let x = arr[i].getAttribute("height");
     let j = i - 1;
     while (j >= 0 && parseInt(arr[j].getAttribute("height")) > x) {
       let rightBarStyle = arr[j + 1].style;
       let leftBarStyle = arr[j].style;
-      await delay(30);
+      await delay(swapTime);
       rightBarStyle["backgroundColor"] = "green";
       leftBarStyle["backgroundColor"] = "green";
-      await delay(35);
+      await delay(swapTime);
       arr[j + 1].setAttribute("height", arr[j].getAttribute("height"));
       rightBarStyle["height"] = leftBarStyle["height"];
-      await delay(30);
+      await delay(swapTime);
       rightBarStyle["backgroundColor"] = "black";
       leftBarStyle["backgroundColor"] = "black";
       j--;
     }
-    await delay(30);
+    await delay(swapTime);
     arr[j + 1].style["backgroundColor"] = "green";
-    await delay(35);
+    await delay(swapTime);
     arr[j + 1].setAttribute("height", x);
     arr[j + 1].style["height"] = `${x}px`;
-    await delay(30);
+    await delay(swapTime);
     arr[j + 1].style["backgroundColor"] = "black";
   }
   return arr;
 }
 
-export async function quickSort(arr, s, e) {
+export async function quickSort(arr, s, e, swapTime) {
   if (e - s + 1 <= 1) {
     return;
   }
@@ -39,38 +39,38 @@ export async function quickSort(arr, s, e) {
     if (parseInt(arr[i].getAttribute("height")) < pivot) {
       let tmp = arr[left].getAttribute("height");
 
-      await delay(35);
+      await delay(swapTime);
       arr[left].style["backgroundColor"] = "green";
       arr[i].style["backgroundColor"] = "green";
 
-      await delay(35);
+      await delay(swapTime);
       arr[left].style["height"] = arr[i].style["height"];
       arr[left].setAttribute("height", arr[i].getAttribute("height"));
 
-      await delay(35);
+      await delay(swapTime);
       arr[i].style["height"] = `${tmp}px`;
       arr[i].setAttribute("height", tmp);
 
-      await delay(35);
+      await delay(swapTime);
       arr[left].style["backgroundColor"] = "black";
       arr[i].style["backgroundColor"] = "black";
 
       left++;
     }
   }
-  await delay(35);
+  await delay(swapTime);
   arr[e].style["backgroundColor"] = "green";
   arr[left].style["backgroundColor"] = "green";
 
-  await delay(35);
+  await delay(swapTime);
   arr[e].style["height"] = arr[left].style["height"];
   arr[e].setAttribute("height", arr[left].getAttribute("height"));
 
-  await delay(35);
+  await delay(swapTime);
   arr[left].style["height"] = `${pivot}px`;
   arr[left].setAttribute("height", pivot);
 
-  await delay(35);
+  await delay(swapTime);
   arr[e].style["backgroundColor"] = "black";
   arr[left].style["backgroundColor"] = "black";
 
@@ -80,7 +80,7 @@ export async function quickSort(arr, s, e) {
   return arr;
 }
 
-export async function mergeSort(arr, s, e) {
+export async function mergeSort(arr, s, e, swapTime) {
   if (e - s + 1 <= 1) return arr;
 
   //Find the middle index of the array
@@ -93,14 +93,14 @@ export async function mergeSort(arr, s, e) {
   await mergeSort(arr, m + 1, e);
 
   //Merge sorted halves
-  await merge(arr, s, m, e);
+  await merge(arr, s, m, e, swapTime);
 
   return arr;
 }
 
 let delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function merge(arr, s, m, e) {
+async function merge(arr, s, m, e, swapTime) {
   let elements = Array.from(arr);
   let L = elements
     .slice(s, m + 1)
@@ -116,29 +116,29 @@ async function merge(arr, s, m, e) {
   // Merge the two sorted halves into the original array
   while (i < L.length && j < R.length) {
     if (L[i] <= R[j]) {
-      await delay(35);
+      await delay(swapTime);
       arr[k].style["backgroundColor"] = "green";
       arr[s + i].style["backgroundColor"] = "green";
 
-      await delay(35);
+      await delay(swapTime);
       arr[k].setAttribute("height", L[i]);
       arr[k].style["height"] = `${L[i]}px`;
 
-      await delay(35);
+      await delay(swapTime);
       arr[k].style["backgroundColor"] = "black";
       arr[s + i].style["backgroundColor"] = "black";
 
       i++;
     } else {
-      await delay(35);
+      await delay(swapTime);
       arr[k].style["backgroundColor"] = "green";
       arr[m + j + 1].style["backgroundColor"] = "green";
 
-      await delay(35);
+      await delay(swapTime);
       arr[k].setAttribute("height", R[j]);
       arr[k].style["height"] = `${R[j]}px`;
 
-      await delay(35);
+      await delay(swapTime);
       arr[k].style["backgroundColor"] = "black";
       arr[m + j + 1].style["backgroundColor"] = "black";
 
@@ -149,15 +149,15 @@ async function merge(arr, s, m, e) {
 
   //one of the halves will have elements remaining
   while (i < L.length) {
-    await delay(35);
+    await delay(swapTime);
     arr[k].style["backgroundColor"] = "green";
     arr[s + i].style["backgroundColor"] = "green";
 
-    await delay(35);
+    await delay(swapTime);
     arr[k].setAttribute("height", L[i]);
     arr[k].style["height"] = `${L[i]}px`;
 
-    await delay(35);
+    await delay(swapTime);
     arr[k].style["backgroundColor"] = "black";
     arr[s + i].style["backgroundColor"] = "black";
 
@@ -165,15 +165,15 @@ async function merge(arr, s, m, e) {
     k++;
   }
   while (j < R.length) {
-    await delay(35);
+    await delay(swapTime);
     arr[k].style["backgroundColor"] = "green";
     arr[m + j + 1].style["backgroundColor"] = "green";
 
-    await delay(35);
+    await delay(swapTime);
     arr[k].setAttribute("height", R[j]);
     arr[k].style["height"] = `${R[j]}px`;
 
-    await delay(35);
+    await delay(swapTime);
     arr[k].style["backgroundColor"] = "black";
     arr[m + j + 1].style["backgroundColor"] = "black";
 
