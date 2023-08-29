@@ -110,7 +110,7 @@ function SortingVisualizer() {
             className="array-bar"
             key={idx}
             height={item}
-            style={{ backgroundColor: "black", height: `${item}px` }}
+            style={{ height: `${item}px` }}
           ></div>
         ))}
       </div>
@@ -121,6 +121,7 @@ function SortingVisualizer() {
             name="number"
             min="15"
             max="120"
+            class="slider"
             value={numItems}
             onChange={onNumItemsChange}
           ></input>
@@ -132,6 +133,7 @@ function SortingVisualizer() {
             name="speed"
             min="10"
             max="60"
+            class="slider"
             value={sortingSpeed}
             onChange={onSpeedChange}
           ></input>
