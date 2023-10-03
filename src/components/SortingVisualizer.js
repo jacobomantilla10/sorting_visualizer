@@ -37,6 +37,9 @@ function SortingVisualizer() {
   }
 
   async function handleInsertionSortClick() {
+    if (isSorting) {
+      return;
+    }
     setIsSorting(true);
 
     let res = await insertionSort(arrayBars, sortingSpeed);
@@ -51,6 +54,9 @@ function SortingVisualizer() {
   }
 
   async function handleQuickSortClick() {
+    if (isSorting) {
+      return;
+    }
     setIsSorting(true);
 
     let res = await quickSort(arrayBars, 0, arrayBars.length - 1, sortingSpeed);
@@ -60,12 +66,14 @@ function SortingVisualizer() {
     for (let i = 0; i < res.length; i++) {
       nextItems.push(parseInt(res[i].getAttribute("height")));
     }
-    console.log(nextItems);
     setItems(nextItems);
     setIsSorting(false);
   }
 
   async function handleMergeSortClick() {
+    if (isSorting) {
+      return;
+    }
     setIsSorting(true);
 
     let res = await mergeSort(arrayBars, 0, arrayBars.length - 1, sortingSpeed);
@@ -75,18 +83,21 @@ function SortingVisualizer() {
     for (let i = 0; i < res.length; i++) {
       nextItems.push(parseInt(res[i].getAttribute("height")));
     }
-    console.log(nextItems);
     setItems(nextItems);
     setIsSorting(false);
   }
 
   function onSpeedChange(e) {
-    console.log("triggered");
+    if (isSorting) {
+      return;
+    }
     setSortingSpeed(parseInt(e.target.value));
   }
 
   function onNumItemsChange(e) {
-    console.log("triggered");
+    if (isSorting) {
+      return;
+    }
     setNumItems(parseInt(e.target.value));
     resetItems();
   }

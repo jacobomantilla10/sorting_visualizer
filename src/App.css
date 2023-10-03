@@ -56,7 +56,6 @@ body {
 }
 
 .array-bar {
-  /* width: 10px; */
   flex-grow: 1;
   display: inline-block;
   background-color: #575757;
