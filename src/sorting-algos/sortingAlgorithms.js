@@ -101,8 +101,6 @@ export async function mergeSort(arr, s, e, swapTime) {
   return arr;
 }
 
-let delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
 async function merge(arr, s, m, e, swapTime) {
   let elements = Array.from(arr);
   let L = elements
@@ -184,3 +182,5 @@ async function merge(arr, s, m, e, swapTime) {
     k++;
   }
 }
+
+let delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
