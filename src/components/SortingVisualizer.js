@@ -28,7 +28,7 @@ function SortingVisualizer() {
   const [numItems, setNumItems] = useState(100);
   const [items, setItems] = useState(createRandomArray(numItems));
   const [isSorting, setIsSorting] = useState(false);
-  const [sortingSpeed, setSortingSpeed] = useState(30);
+  const [sortingSpeed, setSortingSpeed] = useState(12);
 
   const arrayBars = document.getElementsByClassName("array-bar");
 
@@ -125,8 +125,8 @@ function SortingVisualizer() {
         />
         <Slider
           name="number"
-          min={15}
-          max={120}
+          min={8}
+          max={35}
           value={sortingSpeed}
           onChange={onSpeedChange}
           text="🕒 Per Swap"
